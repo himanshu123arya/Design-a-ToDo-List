@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      class Task {
+        constructor(id, description) {
+          this.id = id;
+          this.description = description;
+          this.completed = false;
+        }
+
+        toggleStatus() {
+          this.completed = !this.completed;
+        }
+      }
+
+      class ToDoList {
+        constructor() {
+          this.tasks = [];
+          this.nextId = 1;
+        }
+
+        addTask(description) {
+          const newTask = new Task(this.nextId++, description);
+          this.tasks.push(newTask);
+          return newTask;
+        }
+
+        removeTask(id) {
+          this.tasks = this.tasks.filter((task) => task.id !== id);
+        }
+
+        toggleTaskStatus(id) {
+          const task = this.tasks.find((task) => task.id === id);
+          if (task) {
+            task.toggleStatus();
+          }
+        }
+
+        getTasks(filter = "all") {
+          switch (filter) {
+            case "completed":
+              return this.tasks.filter((task) => task.completed);
+            case "pending":
+              return this.tasks.filter((task) => !task.completed);
+            default:
+              return this.tasks;
+          }
+        }
+
+        clearCompleted() {
+          this.tasks = this.tasks.filter((task) => !task.completed);
+        }
+      }
+      const myToDoList = new ToDoList();
+
+      myToDoList.addTask("Finish LLD assignment");
+      myToDoList.addTask("Read system design book");
+      myToDoList.addTask("Go for a walk");
+
+      console.log("All Tasks:", myToDoList.getTasks());
+
+      myToDoList.toggleTaskStatus(2); // Mark task 2 as completed
+      console.log("Completed Tasks:", myToDoList.getTasks("completed"));
+
+      myToDoList.removeTask(3); // Remove task with id 3
+      console.log("Remaining Tasks:", myToDoList.getTasks());
+    </script>
+  </head>
+  <body></body>
+</html>
